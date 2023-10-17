@@ -68,7 +68,14 @@ def ex3():
     str1 = input("String 1: ")
     str2 = input("String 2: ")
 
-    print(str2.count(str1))
+    #print(str2.count(str1)) 
+
+    count = 0
+    for i in range(len(str2) - len(str1) + 1):
+        if str2[i:i + len(str1)] == str1:
+            count += 1
+
+    print(count)
 
 ####################################################################################################################
 #4
@@ -213,14 +220,14 @@ def main():
     print("Main function")
     #ex1()
     #ex2()
-    #ex3()
+    ex3()
     #ex4()
     #ex5()
     #ex6()
     #ex7()
     #ex8()
     #ex9()
-    ex10()
+    #ex10()
 
 
 if __name__ == "__main__":
