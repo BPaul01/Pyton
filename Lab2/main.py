@@ -73,6 +73,116 @@ def ex6(x, *args):
 
     return result
 
+def ex7(num_list):
+
+    #function taken from Lab1 (Ex 6)
+    def is_palindrome(number):
+        length = len(number)
+        for i in range(length//2):
+            if number[i] != number[length - 1 - i]:
+                return False
+
+        return True
+
+    count = 0
+    greatest = -1
+
+    for element in num_list:
+        if is_palindrome(str(element)):
+            count += 1
+            if greatest == -1 or element > greatest:
+                greatest = element
+
+    return (count, greatest)
+
+def ex8(str_list, x=1, flag=True):
+    index = 0
+    result = []
+
+    if flag:
+        for string in str_list:
+            #check each character
+            chars = []
+            for char in string:
+                if ord(char) % x == 0:
+                    chars += char
+
+            result.append("ceva")
+            result[index] = chars
+            index += 1
+    else:
+        for string in str_list:
+            #check each character
+            chars = []
+            for char in string:
+                if ord(char) % x != 0:
+                    chars += char
+
+            result.append("ceva")
+            result[index] = chars
+            index += 1
+
+    return result
+
+def ex9(matrix):
+    result = []
+    result_index = 0
+    row = matrix[0]
+
+    # for each column iterate form the top to the bottom
+    for column in range(len(row)):
+        current_greatest = matrix[0][column]
+        for line in range(len(matrix)):
+            if matrix[line][column] > current_greatest:
+                current_greatest = matrix[line][column]
+
+            #program will only account for *taller* persons that the tallest found yet
+            elif matrix[line][column] < current_greatest:
+                result.append("ceva")
+                result[result_index] = (line, column)
+                result_index += 1
+
+    return result
+
+def ex10(*args):
+    result = []
+
+    greatest_len = 0
+    for lst in args:
+
+        if greatest_len < len(lst):
+            greatest_len = len(lst)
+
+        for i, element in enumerate(lst):
+
+            #increase the lenght of result if necessary
+            if i >= len(result):
+                result.append("ceva")
+
+                if i > 1:
+                    aux_list = []
+                    while len(aux_list) <= i:
+                        aux_list.append(None,)
+
+                    aux_list[i] = element
+                    result[i] = tuple(aux_list)
+                else:
+                    result[i] = tuple([element,])
+            else:
+                aux_list = list(result[i])
+                aux_list.append(element)
+                result[i] = tuple(aux_list)
+
+    for i, tpl in enumerate(result):
+        if len(tpl) < greatest_len:
+            aux_list = list(tpl)
+            #add None object to the list util it mathches the length
+            while len(aux_list) < greatest_len:
+                aux_list.append(None,)
+            result[i] = tuple(aux_list)
+
+    return result
+
 def main():
     
     #n = int(input("Number of elements: ").strip())
@@ -108,17 +218,36 @@ def main():
     #             print(element, end=" ")
     #         print()
 
-    list1 = [1, 2, 3, 1, 6]
-    list2 = [2, 3, 4]
-    list3 = [4, 5, 6]
-    list4 = [4, 1, "test"]
-    result = ex6(2, list1, list2, list3, list4)
-    print(result)
+    # list1 = [1, 2, 3, 1, 6]
+    # list2 = [2, 3, 4]
+    # list3 = [4, 5, 6]
+    # list4 = [4, 1, "test"]
+    # result = ex6(2, list1, list2, list3, list4)
+    # print(result)
 
-    #ex7()
-    #ex8()
-    #ex9()
-    #ex10()
+    # ex7_list = [12, 11211, 121, 345, 434, 123454321, 2345678, 543234]
+    # cnt, greatest = ex7(ex7_list)
+    # print(f"There are {cnt} palindrome numbers and the greatest one was: {greatest}")
+
+    # ex8_list = ["abc", "def", "ghi", "jkl", "mno", "pqr", "stu", "wxyz"]
+    # ex8_list2 = ["test", "hello", "lab002"]
+    # result = ex8(ex8_list2, 2, False)
+    # print(result)
+
+    # ex9_matrix = [
+    #     [1, 2, 3, 2, 1, 1],
+    #     [2, 4, 4, 3, 7, 2],
+    #     [5, 5, 2, 5, 6, 4],
+    #     [6, 6, 7, 6, 7, 5]
+    # ]
+    # result = ex9(ex9_matrix)
+    # print(result)
+
+    ex10_list1 = [1, 2, 3]
+    ex10_list2 = [4, 5, 6]
+    ex10_list3 = [7, 8, 9, 10]
+    result = ex10(ex10_list1, ex10_list2, ex10_list3)
+    print(result)
 
 
 if __name__ == "__main__":
