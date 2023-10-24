@@ -1,3 +1,6 @@
+from itertools import zip_longest
+
+
 def ex1_classic(n):
     l = list()
     a = 1
@@ -145,41 +148,39 @@ def ex9(matrix):
     return result
 
 def ex10(*args):
+    result = list(zip_longest(*args))
+    return result
+
+def ex11(lst):
+    def compare_function(tpl):
+        if len(tpl) > 1 and len(tpl[1]) > 2:
+            return tpl[1][2]
+
+    result = sorted(lst, key=compare_function)
+    return result
+
+def ex12(lst):
+    #remove all the words that have the length less than 2
+    words = list(filter(lambda element: len(element) >= 2, lst))
+
     result = []
+    index = 0
 
-    greatest_len = 0
-    for lst in args:
+    #compare the elements two by two
+    while len(words) != 0:
+        w = words[0]
+        words.remove(w)
+        word_list = []
+        word_list.append(w)
 
-        if greatest_len < len(lst):
-            greatest_len = len(lst)
+        for word in words:
+            if w[-2:] == word[-2:]:
+                word_list.append(word)
+                words.remove(word)
 
-        for i, element in enumerate(lst):
-
-            #increase the lenght of result if necessary
-            if i >= len(result):
-                result.append("ceva")
-
-                if i > 1:
-                    aux_list = []
-                    while len(aux_list) <= i:
-                        aux_list.append(None,)
-
-                    aux_list[i] = element
-                    result[i] = tuple(aux_list)
-                else:
-                    result[i] = tuple([element,])
-            else:
-                aux_list = list(result[i])
-                aux_list.append(element)
-                result[i] = tuple(aux_list)
-
-    for i, tpl in enumerate(result):
-        if len(tpl) < greatest_len:
-            aux_list = list(tpl)
-            #add None object to the list util it mathches the length
-            while len(aux_list) < greatest_len:
-                aux_list.append(None,)
-            result[i] = tuple(aux_list)
+        result.append("ceva")
+        result[index] = word_list
+        index += 1
 
     return result
 
@@ -243,10 +244,17 @@ def main():
     # result = ex9(ex9_matrix)
     # print(result)
 
-    ex10_list1 = [1, 2, 3]
-    ex10_list2 = [4, 5, 6]
-    ex10_list3 = [7, 8, 9, 10]
-    result = ex10(ex10_list1, ex10_list2, ex10_list3)
+    # ex10_list1 = [1, 2, 3, 4]
+    # ex10_list2 = [5, 6]
+    # ex10_list3 = [7, 8, 9, 10, 11]
+    # result = ex10(ex10_list1, ex10_list2, ex10_list3)
+    # print(result)
+
+    # result = ex11([('abc', 'bcd'), ('abc', 'zza')])
+    # print(result)
+
+    words = ['ana', 'banana', 'carte', 'arme', 'parte']
+    result = ex12(words)
     print(result)
 
 
