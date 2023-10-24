@@ -25,10 +25,25 @@ def ex2(number_list):
     return [number_list[i] for i in range(2,len(number_list)) if len(list(j for j in range(2, number_list[i] // 2+1) if number_list[i] % j == 0)) == 0]
 
 def ex3(a_list, b_list):
-    intersection = list(set(a_list) & set(b_list))
-    union = list(set(a_list) | set(b_list))
-    dif_a_b = list(set(a_list) - set(b_list))
-    dif_b_a = list(set(b_list) - set(a_list))
+    intersection = []
+    for x in a_list:
+        if x in b_list:
+            intersection.append(x)
+
+    union = a_list.copy()
+    for x in b_list:
+        if x not in a_list:
+            union.append(x)
+
+    dif_a_b = []
+    for x in a_list:
+        if x not in b_list:
+            dif_a_b.append(x)
+
+    dif_b_a = []
+    for x in b_list:
+        if x not in a_list:
+            dif_b_a.append(x)
 
     return intersection, union, dif_a_b, dif_b_a
 
@@ -193,13 +208,13 @@ def main():
     # ex2_list = ex2([0])
     # print(ex2_list)
 
-    # ex3_a_list = [1, 2, 3, 4, 5]
-    # ex3_b_list = [3, 4, 5, 6, 7]
-    # intersection, union, dif_a_b, dif_b_a = ex3(ex3_a_list, ex3_b_list)
-    # print("A intersected with B: ", intersection)
-    # print("A reunited with B: ", union)
-    # print("A - B: ", dif_a_b)
-    # print("B - A: ", dif_b_a)
+    ex3_a_list = [1, 2, 3, 4, 5]
+    ex3_b_list = [3, 4, 5, 6, 7]
+    intersection, union, dif_a_b, dif_b_a = ex3(ex3_a_list, ex3_b_list)
+    print("A intersected with B: ", intersection)
+    print("A reunited with B: ", union)
+    print("A - B: ", dif_a_b)
+    print("B - A: ", dif_b_a)
 
     # ex4_notes = ["do", "re", "mi", "fa", "sol"]
     # ex4_moves = [1, -3, 4, 2]
@@ -253,9 +268,9 @@ def main():
     # result = ex11([('abc', 'bcd'), ('abc', 'zza')])
     # print(result)
 
-    words = ['ana', 'banana', 'carte', 'arme', 'parte']
-    result = ex12(words)
-    print(result)
+    # words = ['ana', 'banana', 'carte', 'arme', 'parte']
+    # result = ex12(words)
+    # print(result)
 
 
 if __name__ == "__main__":
