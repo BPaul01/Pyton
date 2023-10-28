@@ -96,10 +96,11 @@ def ex5(tuple_set, dict_to_validate):
             if not dict_to_validate[key].startswith(prefix):
                 return False
 
+        #middle can overlap with the prefix and the suffix but the string can't start or end with it
         if middle != "":
             if (middle not in dict_to_validate[key] 
-                and dict_to_validate[key].index(middle) != 0
-                and dict_to_validate[key].index(middle) != len(dict_to_validate[key]) - len(middle)):
+                or dict_to_validate[key].index(middle) == 0
+                or dict_to_validate[key].index(middle) == len(dict_to_validate[key]) - len(middle)):
                 return False
 
         if suffix != "":
@@ -202,10 +203,10 @@ def main():
     # result = ex4("a", "Hello there", href =" http://python.org ", _class =" my-link ", id= " someid ")
     # print(result)
 
-    # ex5_rules = {("key1", "", "inside", ""), ("key3", "this", "not", "valid")}
-    # ex5_dict = {"key1": "come inside, it's too cold out", "key3": "this is not valid"}
-    # result = ex5(ex5_rules, ex5_dict)
-    # print(result)
+    ex5_rules = {("key1", "", "inside", ""), ("key3", "this", "not", "valid")}
+    ex5_dict = {"key1": "come inside, it's too cold out", "key3": "this is not valid"}
+    result = ex5(ex5_rules, ex5_dict)
+    print(result)
 
     # ex6_list = [1, 5, 2, 3, 1, 4, 5]
     # result = ex6(ex6_list)
@@ -220,8 +221,8 @@ def main():
     # result = ex8(ex8_map)
     # print(result)
     
-    result = ex9(1, 2, 3, 4, x=1, y=2, z=3, w=5)
-    print(result)
+    # result = ex9(1, 2, 3, 4, x=1, y=2, z=3, w=5)
+    # print(result)
 
 if __name__ == "__main__":
     main()
