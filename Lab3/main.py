@@ -92,19 +92,20 @@ def ex5(tuple_set, dict_to_validate):
         if key not in dict_to_validate:
             return False
 
-        if prefix != "":
-            if not dict_to_validate[key].startswith(prefix):
-                return False
+        copy_value = dict_to_validate[key]
 
-        #middle can overlap with the prefix and the suffix but the string can't start or end with it
-        if middle != "":
-            if (middle not in dict_to_validate[key] 
-                or dict_to_validate[key].index(middle) == 0
-                or dict_to_validate[key].index(middle) == len(dict_to_validate[key]) - len(middle)):
+        if prefix != "":
+            if not copy_value.startswith(prefix):
                 return False
+            copy_value = copy_value[len(prefix):]
 
         if suffix != "":
-            if not dict_to_validate[key].endswith(suffix):
+            if not copy_value.endswith(suffix):
+                return False
+            copy_value = copy_value[:-len(suffix)]
+
+        if middle != "":
+            if middle not in copy_value:
                 return False
 
     return True
@@ -203,7 +204,7 @@ def main():
     # result = ex4("a", "Hello there", href =" http://python.org ", _class =" my-link ", id= " someid ")
     # print(result)
 
-    ex5_rules = {("key1", "", "inside", ""), ("key3", "this", "not", "valid")}
+    ex5_rules = {("key1", "", "inside", ""), ("key2", "this", "", "valid")}
     ex5_dict = {"key1": "come inside, it's too cold out", "key3": "this is not valid"}
     result = ex5(ex5_rules, ex5_dict)
     print(result)
