@@ -31,7 +31,7 @@ class Stack:
         self.elements = []
 
     def push(self, element):
-        self.elements.append(element)
+        self.elements.append(copy_element(element))
 
     def pop(self):
         length = len(self.elements)
@@ -40,7 +40,7 @@ class Stack:
         else:
             element = self.elements[length - 1]
             del self.elements[length - 1]
-            return element
+            return copy_element(element)
 
     def peek(self):
         if len(self.elements) == 0:
@@ -52,7 +52,7 @@ class Queue:
         self.elements = []
 
     def push(self, element):
-        self.elements.append(element)
+        self.elements.append(copy_element(element))
 
     def pop(self):
         if len(self.elements) == 0:
@@ -60,7 +60,7 @@ class Queue:
         else:
             element = self.elements[0]
             del self.elements[0]
-            return element
+            return copy_element(element)
 
     def peek(self):
         if len(self.elements) == 0:
