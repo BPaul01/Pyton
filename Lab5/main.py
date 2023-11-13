@@ -282,6 +282,56 @@ class Salesperson(Employee):
             self.product_dict[product] -= quantity
             return "Sold"
 
+#ex5
+class Animal:
+    def __init__(self, name, habitat):
+        self.name = name
+        self.habitat = habitat
+
+class Mammal(Animal):
+    def __init__(self, name, habitat, fur_color, num_legs):
+        super().__init__(name, habitat)
+        self.fur_color = fur_color
+        self.num_legs = num_legs
+
+    def run(self):
+        return f"{self.name} is running on {self.num_legs} legs."
+
+    def eat(self, food):
+        print(f"{self.name} is now eating {food}")
+
+class Bird(Animal):
+    def __init__(self, name, habitat, can_fly):
+        super().__init__(name, habitat)
+        self.lifetime_egg_record = 0
+        self.can_fly = can_fly
+
+    def lay_an_egg(self):
+        self.lifetime_egg_record += 1
+
+    def fly(self):
+        if self.can_fly:
+            print(f"{self.name} is now flying")
+        else:
+            print(f"Give {self.name} a parachute and throw it off the cliff to see want happens")
+
+class Fish(Animal):
+    def __init__(self, name, habitat, water_type, is_predator):
+        super().__init__(name, habitat)
+        self.water_type = water_type
+        self.is_predator = is_predator
+
+    def explore(self, water_type):
+        if water_type != self.water_type:
+            print(f"{self.name} died because it couldn't swim int the {water_type} water")
+        else:
+            print(f"{self.name} explored some unknown territory")
+
+    def hunt(self, fish):
+        if self.is_predator:
+            print(f"{self.name} succesfully hunted {fish}")
+        else:
+            print(f"{self.name} returned hungry because it ran all day from a predator")
 
 def main():
     # #ex1
@@ -341,36 +391,53 @@ def main():
     # t = Truck("Ford", "F-150", 2016, 565, 700, 2500)
     # print(t.calculate_towing_capacity())
 
-    #ex4
-    e1 = Employee("Andrew", "a@email.com", "07568312312", 2000)
-    e2 = Employee("Laura", "l@email.com", "0230234765", 2200)
-    e3 = Employee("Batman", "badman@gmail.com", "0788888888", 0)
-    e3.raise_salary(5000)
-    m = Manager("Bob", "bob.manager@email.com", "07878787878", 10000)
-    m.hire(e1)
-    m.hire(e2)
-    m.hire(e3)
-    m.print_employees()
+    # #ex4
+    # e1 = Employee("Andrew", "a@email.com", "07568312312", 2000)
+    # e2 = Employee("Laura", "l@email.com", "0230234765", 2200)
+    # e3 = Employee("Batman", "badman@gmail.com", "0788888888", 0)
+    # e3.raise_salary(5000)
+    # m = Manager("Bob", "bob.manager@email.com", "07878787878", 10000)
+    # m.hire(e1)
+    # m.hire(e2)
+    # m.hire(e3)
+    # m.print_employees()
     
-    e4 = Engineer("Py Fan", "pytonmaster@email.com", "0707234567", 2700, "Pyton 3.1")
-    e4.learn_a_new_language("Python 2.0")
-    e4.learn_a_new_language("C")
-    e4.assign_to_project("Pyton 4.0")
-    print(f"{e4.name} knows the following languages:")
-    e4.print_known_languages()
+    # e4 = Engineer("Py Fan", "pytonmaster@email.com", "0707234567", 2700, "Pyton 3.1")
+    # e4.learn_a_new_language("Python 2.0")
+    # e4.learn_a_new_language("C")
+    # e4.assign_to_project("Pyton 4.0")
+    # print(f"{e4.name} knows the following languages:")
+    # e4.print_known_languages()
+    # print()
+
+    # products = {
+    #     "sofware1": 1000000000,
+    #     "gaming_pc": 120,
+    #     "lama": 27
+    # }
+
+    # s = Salesperson("Jason Capital", "richbastard@email.com", "023056550702", 100, products)
+    # s.add_product_to_stock("gaming_pc", 140)
+    # print(s.sell_product("lama", 40))
+    # print(s.sell_product("software11", 20)) 
+    # print(s.sell_product("sofware1", 20)) 
+
+    m = Mammal("Kangaroo", "Savana", "orange", 2)
+    m.eat("wet grass")
+    print(m.run())
     print()
 
-    products = {
-        "sofware1": 1000000000,
-        "gaming_pc": 120,
-        "lama": 27
-    }
+    b1 = Bird("Duffy Duck", "Bugs Bunny's hose", False)
+    b2 = Bird("Canard", "Grandma's Cage", True)
+    b1.fly()
+    b2.lay_an_egg();b2.lay_an_egg();b2.lay_an_egg();b2.lay_an_egg()
+    print(f"{b2.name} layed {b2.lifetime_egg_record} eggs")
+    print()
 
-    s = Salesperson("Jason Capital", "richbastard@email.com", "023056550702", 100, products)
-    s.add_product_to_stock("gaming_pc", 140)
-    print(s.sell_product("lama", 40))
-    print(s.sell_product("software11", 20)) 
-    print(s.sell_product("sofware1", 20)) 
+    f1 = Fish("Jaws", "Pacific", "Deep water", True)
+    f2 = Fish("Nemo", "Underwater", "blue", False)
+    f1.hunt("salmon")
+    f2.explore("blue")
 
 if __name__ == "__main__":
     main()
