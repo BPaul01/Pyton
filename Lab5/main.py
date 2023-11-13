@@ -198,6 +198,91 @@ class Truck(Vehicle):
     def calculate_towing_capacity(self):
         return self.engine_torqe * self.horse_power / (self.weight / 20)
 
+#ex4
+class Employee:
+    def __init__(self, name, email, phone_number, salary) -> None:
+        self.name = name
+        self.email = email
+        self.phone_number = phone_number
+        self.salary = salary
+
+    def raise_salary(self, amount):
+        if not isinstance(amount, (int, float)) or amount < 0:
+            return "Error: Please input a valid amount"
+        self.salary = self.salary + amount
+
+    def __str__(self) -> str:
+        result = "{\n"
+        result += f"\tName: {self.name};\n"
+        result += f"\tEmail: {self.email};\n"
+        result += f"\tPhone #: {self.phone_number};\n"
+        result += f"\tSalary: {self.salary};\n"
+        result += "}"
+        return result
+
+class Manager(Employee):
+    def __init__(self, name, email, phone_number, salary):
+        if not isinstance(salary, (int, float)) or salary < 0:
+            return "Error: Please input a valid salary"
+        super().__init__(name, email, phone_number, salary)
+        self.department = "No assigned department"
+        self.employees = []
+    
+    def assign_to(self, department):
+        self.department = department
+        print(f"{self.name} is now managing {self.department} department.")
+
+    def hire(self, employee):
+        if not isinstance(employee, Employee):
+            return "Error: Please input a valid employee"
+        self.employees.append(employee)
+
+    def print_employees(self):
+        for e in self.employees:
+            print(str(e))
+
+class Engineer(Employee):
+    def __init__(self, name, email, phone_number, salary, language):
+        if not isinstance(salary, (int, float)) or salary < 0:
+            return "Error: Please input a valid salary"
+        super().__init__(name, email, phone_number, salary)
+        self.known_languages = [language]
+        self.projects = []
+
+    def assign_to_project(self, project):
+        self.projects.append(project)
+        print(f"{self.name} is now working on the {project} project")
+
+    def learn_a_new_language(self, language):
+        self.known_languages.append(language)
+
+    def print_known_languages(self):
+        for l in self.known_languages:
+            print(l, end=" ")
+
+class Salesperson(Employee):
+    def __init__(self, name, email, phone_number, salary, product_dict):
+        if not isinstance(salary, (int, float)) or salary < 0:
+            return "Error: Please input a valid salary"
+        super().__init__(name, email, phone_number, salary)
+        self.product_dict = product_dict
+
+    def add_product_to_stock(self, product, quantity):
+        if product not in self.product_dict:
+            self.product_dict[product] = quantity
+        else:
+            self.product_dict[product] += quantity
+
+    def sell_product(self, product, quantity):
+        if product not in self.product_dict:
+            return "Error: Product isn't in the catalog"
+        elif self.product_dict[product] < quantity:
+            return "Error: Insufitient stock"
+        else:
+            self.product_dict[product] -= quantity
+            return "Sold"
+
+
 def main():
     # #ex1
     # c = Circle(2)
@@ -246,15 +331,46 @@ def main():
     # else:
     #     print(result)
 
-    #ex3
-    c = Car("VW", "Golf mk 2", 2000, 500, 30)
-    print(c.calculate_mileage())
+    # #ex3
+    # c = Car("VW", "Golf mk 2", 2000, 500, 30)
+    # print(c.calculate_mileage())
 
-    m = Motorcycle("Yamaha", "VMAX", 1988, 200, 7)
-    print(m.calculate_mileage())
+    # m = Motorcycle("Yamaha", "VMAX", 1988, 200, 7)
+    # print(m.calculate_mileage())
 
-    t = Truck("Ford", "F-150", 2016, 565, 700, 2500)
-    print(t.calculate_towing_capacity())
+    # t = Truck("Ford", "F-150", 2016, 565, 700, 2500)
+    # print(t.calculate_towing_capacity())
+
+    #ex4
+    e1 = Employee("Andrew", "a@email.com", "07568312312", 2000)
+    e2 = Employee("Laura", "l@email.com", "0230234765", 2200)
+    e3 = Employee("Batman", "badman@gmail.com", "0788888888", 0)
+    e3.raise_salary(5000)
+    m = Manager("Bob", "bob.manager@email.com", "07878787878", 10000)
+    m.hire(e1)
+    m.hire(e2)
+    m.hire(e3)
+    m.print_employees()
+    
+    e4 = Engineer("Py Fan", "pytonmaster@email.com", "0707234567", 2700, "Pyton 3.1")
+    e4.learn_a_new_language("Python 2.0")
+    e4.learn_a_new_language("C")
+    e4.assign_to_project("Pyton 4.0")
+    print(f"{e4.name} knows the following languages:")
+    e4.print_known_languages()
+    print()
+
+    products = {
+        "sofware1": 1000000000,
+        "gaming_pc": 120,
+        "lama": 27
+    }
+
+    s = Salesperson("Jason Capital", "richbastard@email.com", "023056550702", 100, products)
+    s.add_product_to_stock("gaming_pc", 140)
+    print(s.sell_product("lama", 40))
+    print(s.sell_product("software11", 20)) 
+    print(s.sell_product("sofware1", 20)) 
 
 if __name__ == "__main__":
     main()
