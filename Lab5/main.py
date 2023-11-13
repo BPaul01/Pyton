@@ -333,6 +333,66 @@ class Fish(Animal):
         else:
             print(f"{self.name} returned hungry because it ran all day from a predator")
 
+#ex6
+class LibraryItem:
+    def __init__(self, title, author, item_id):
+        self.title = title
+        self.author = author
+        self.item_id = item_id
+        self.checked_out = False
+
+    def check_out(self):
+        if self.checked_out:
+            print(f"{self.title} is already checked out.")
+        else:
+            self.checked_out = True
+            print(f"{self.title} has been checked out.")
+
+    def return_item(self):
+        if self.checked_out:
+            self.checked_out = False
+            print(f"{self.title} has been returned.")
+        else:
+            print(f"{self.title} is not checked out.")
+
+    def display_info(self):
+        print(f"Title: {self.title}")
+        print(f"Author: {self.author}")
+        print(f"Item ID: {self.item_id}")
+        print(f"Checked Out: {self.checked_out}")
+
+class Book(LibraryItem):
+    def __init__(self, title, author, item_id, num_pages):
+        super().__init__(title, author, item_id)
+        self.num_pages = num_pages
+
+    def display_info(self):
+        super().display_info()
+        print(f"Number of Pages: {self.num_pages}")
+
+class DVD(LibraryItem):
+    def __init__(self, title, author, item_id, cd_type, contents):
+        super().__init__(title, author, item_id)
+        self.cd_type = cd_type
+        self.contents = contents
+
+    def display_info(self):
+        super().display_info()
+        print(f"CD type: {self.cd_type}")
+        print("CD contents: ", end="")
+        for file in self.contents:
+            print(file, end=" ")
+        print()
+
+class Magazine(LibraryItem):
+    def __init__(self, title, author, item_id, series):
+        super().__init__(title, author, item_id)
+        self.series = series
+
+    def display_info(self):
+        super().display_info()
+        print(f"Series: {self.series}")
+
 def main():
     # #ex1
     # c = Circle(2)
@@ -422,22 +482,42 @@ def main():
     # print(s.sell_product("software11", 20)) 
     # print(s.sell_product("sofware1", 20)) 
 
-    m = Mammal("Kangaroo", "Savana", "orange", 2)
-    m.eat("wet grass")
-    print(m.run())
+    # #ex5
+    # m = Mammal("Kangaroo", "Savana", "orange", 2)
+    # m.eat("wet grass")
+    # print(m.run())
+    # print()
+
+    # b1 = Bird("Duffy Duck", "Bugs Bunny's hose", False)
+    # b2 = Bird("Canard", "Grandma's Cage", True)
+    # b1.fly()
+    # b2.lay_an_egg();b2.lay_an_egg();b2.lay_an_egg();b2.lay_an_egg()
+    # print(f"{b2.name} layed {b2.lifetime_egg_record} eggs")
+    # print()
+
+    # f1 = Fish("Jaws", "Pacific", "Deep water", True)
+    # f2 = Fish("Nemo", "Underwater", "blue", False)
+    # f1.hunt("salmon")
+    # f2.explore("blue")
+
+    #ex6
+    i1 = LibraryItem("Pen", "Pen inventor", "124")
+    i1.check_out()
+    i2 = LibraryItem("Music Theory", "A gud music profesor", "ISBN-1234-5555-1234567")
+    i2.return_item()
     print()
 
-    b1 = Bird("Duffy Duck", "Bugs Bunny's hose", False)
-    b2 = Bird("Canard", "Grandma's Cage", True)
-    b1.fly()
-    b2.lay_an_egg();b2.lay_an_egg();b2.lay_an_egg();b2.lay_an_egg()
-    print(f"{b2.name} layed {b2.lifetime_egg_record} eggs")
+    b1 = Book("Fundamentele Algebrice ale Informaticii", "FLT", "ISBN-3268-5141-132424", 606)
+    b1.display_info()
     print()
 
-    f1 = Fish("Jaws", "Pacific", "Deep water", True)
-    f2 = Fish("Nemo", "Underwater", "blue", False)
-    f1.hunt("salmon")
-    f2.explore("blue")
+    cont = ["music1", "a file", "another_file"]
+    d = DVD("dvd bomba", "eu", "25", "DVD", cont)
+    d.display_info()
+    print()
+
+    m = Magazine("La gatit cu Gamila Cusine", "Camila Cusine", "12048357t48", "Mastar da art of cooking vol 5")
+    m.display_info()
 
 if __name__ == "__main__":
     main()
