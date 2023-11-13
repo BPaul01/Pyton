@@ -163,6 +163,41 @@ class CheckingAccount(Account):
         account.amount = account.amount + amount
         return "Success"
 
+#ex3
+class Vehicle:
+    def __init__(self, make, model, year):
+        self.make = make
+        self.model = model
+        self.year = year
+
+class Car(Vehicle):
+    def __init__(self, make, model, year, range, fuel_capacity):
+        super().__init__(make, model, year)
+        self.range = range
+        self.fuel_capacity = fuel_capacity
+
+    def calculate_mileage(self):
+        return self.range / self.fuel_capacity
+
+class Motorcycle(Vehicle):
+    def __init__(self, make, model, year, range, fuel_capacity):
+        super().__init__(make, model, year)
+        self.range = range
+        self.fuel_capacity = fuel_capacity
+
+    def calculate_mileage(self):
+        return self.range / self.fuel_capacity
+
+class Truck(Vehicle):
+    def __init__(self, make, model, year, horse_power, engine_torqe, weight):
+        super().__init__(make, model, year)
+        self.horse_power = horse_power
+        self.engine_torqe = engine_torqe
+        self.weight = weight
+
+    def calculate_towing_capacity(self):
+        return self.engine_torqe * self.horse_power / (self.weight / 20)
+
 def main():
     # #ex1
     # c = Circle(2)
@@ -182,34 +217,44 @@ def main():
     # print("Triangle area:", t.calculate_area())
     # print("Triangle perimeter:", t.calculate_perimeter())
 
-    #ex2
-    s = SavingsAccount()
-    s.credit_account()
-    s.credit_account()
-    print("Account balance:", s.amount)
-    s.update_package("Premium")
-    s.credit_account()
-    print("Account balance:", s.amount)
-    s.update_interest_rate(100)
-    print("Your balance will be:", s.calculate_interest(50), "after 50 years")
+    # #ex2
+    # s = SavingsAccount()
+    # s.credit_account()
+    # s.credit_account()
+    # print("Account balance:", s.amount)
+    # s.update_package("Premium")
+    # s.credit_account()
+    # print("Account balance:", s.amount)
+    # s.update_interest_rate(100)
+    # print("Your balance will be:", s.calculate_interest(50), "after 50 years")
 
-    c = CheckingAccount()
-    c.make_a_deposit(200)
-    print("Checking Account balance:", c.amount)
-    result = c.transfer(68, s)
-    if result == "Success":
-        print("Transfer succeded")
-        print("Balance of the account credited:", s.amount)
-        print("Balance of the sender account:", c.amount)
-    else:
-        print(result)
-    result = c.transfer(200, s)
-    if result == "Success":
-        print("Transfer succeded")
-        print("Balance of the account credited:", s.amount)
-        print("Balance of the sender account:", c.amount)
-    else:
-        print(result)
+    # c = CheckingAccount()
+    # c.make_a_deposit(200)
+    # print("Checking Account balance:", c.amount)
+    # result = c.transfer(68, s)
+    # if result == "Success":
+    #     print("Transfer succeded")
+    #     print("Balance of the account credited:", s.amount)
+    #     print("Balance of the sender account:", c.amount)
+    # else:
+    #     print(result)
+    # result = c.transfer(200, s)
+    # if result == "Success":
+    #     print("Transfer succeded")
+    #     print("Balance of the account credited:", s.amount)
+    #     print("Balance of the sender account:", c.amount)
+    # else:
+    #     print(result)
+
+    #ex3
+    c = Car("VW", "Golf mk 2", 2000, 500, 30)
+    print(c.calculate_mileage())
+
+    m = Motorcycle("Yamaha", "VMAX", 1988, 200, 7)
+    print(m.calculate_mileage())
+
+    t = Truck("Ford", "F-150", 2016, 565, 700, 2500)
+    print(t.calculate_towing_capacity())
 
 if __name__ == "__main__":
     main()
