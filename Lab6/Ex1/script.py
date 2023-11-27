@@ -1,13 +1,16 @@
 import sys
 import os
 
-if len(sys.argv) < 3:
-    raise Exception("Not enough parameters")
+if len(sys.argv) != 3:
+    raise Exception("Invalid number of parameters")
 
 directory = sys.argv[1]
 file_ext = sys.argv[2]
 
 try:
+    if not os.path.exists(directory):
+        raise Exception("Directory doesn't exist")
+
     if not os.path.isdir(directory):
         raise Exception("Invalid directory")
 
