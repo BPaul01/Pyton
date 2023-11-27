@@ -1,0 +1,5 @@
+File 2 aici
+prima linie
+a doua linie
+bla bla bla
+etc

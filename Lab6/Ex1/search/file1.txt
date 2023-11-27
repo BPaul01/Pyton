@@ -1,0 +1,4 @@
+Continutul fisierului file1.txt
+linia 1
+linia 2
+ok
