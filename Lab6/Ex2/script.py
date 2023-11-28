@@ -1,12 +1,12 @@
 import os
 import sys
 
-if len(sys.argv) != 2:
-    raise Exception("Invalid number of parameters")
-
-directory = sys.argv[1]
-
 try:
+    if len(sys.argv) != 2:
+        raise Exception("Invalid number of parameters")
+
+    directory = sys.argv[1]
+
     if not os.path.exists(directory):
         raise Exception("Folder doesn't exist")
 
