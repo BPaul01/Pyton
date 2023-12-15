@@ -2,6 +2,27 @@ import sys
 import os
 import json
 
+
+def create_structure(structure, target_directory):
+    for element in structure:
+        # create all the files at the current level
+        if not isinstance(structure.get(element), dict):
+            try:
+                file = open(os.path.join(target_directory, element), mode="w")
+                file.write(structure.get(element))
+                print(f"File '{element}' created successfully")
+                file.close()
+
+            except Exception:
+                print(f"Error: Could not create the file {element}", file=sys.stderr)
+        else:
+            # create the new folder
+            os.mkdir(os.path.join(target_directory, element))
+
+            # recursively call the function to create the substructure of the folder
+            create_structure(structure.get(element), os.path.join(target_directory, element))
+
+
 try:
     if len(sys.argv) != 3:
         raise Exception("Error: Invalid number of parameters")
@@ -46,7 +67,7 @@ try:
     except Exception as e:
         raise Exception("Error: Could not open the file")
 
-    print(f"The retrieved dictionary: {structure}")
+    create_structure(structure, target_directory)
 
 except Exception as e:
     print(e, file=sys.stderr)

@@ -1,12 +1,23 @@
 {
-  "File1": "content1",
+  "File1.txt": "content1",
   "Dir1": {
-    "File2": "content2",
-    "File3": "content3",
+    "File2.txt": "content2",
+    "File3.txt": "content3",
     "Dir2": {
-      "File4": "content4"
+      "File4.txt": "content4"
     }
   },
   "Dir3": {},
-  "File5": "content5"
+  "Dir4": {
+    "File6.txt": "content6",
+    "Dir5": {
+      "Dir6": {
+        "Dir1": {
+          "Dir1": {}
+        }
+      },
+      "File1.txt": "same content"
+    }
+  },
+  "File5.txt": "content5"
 }
