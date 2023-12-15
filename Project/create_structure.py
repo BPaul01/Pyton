@@ -35,16 +35,18 @@ try:
         raise Exception("Error: Expected a .json file")
 
     # check if it is readable
-    if not os.access(target_directory, os.R_OK):
+    if not os.access(source_file, os.R_OK):
         raise Exception("Error: Source file is not readable")
 
-    # read the source file
+    # read the source file and load its contents into a dictionary
     try:
         s_file = open(source_file, mode="r")
-        print(f"Contents of the source file: {s_file.read()}")
+        structure = json.load(s_file)
         s_file.close()
     except Exception as e:
-        raise Exception("Error: Could not open te file")
+        raise Exception("Error: Could not open the file")
+
+    print(f"The retrieved dictionary: {structure}")
 
 except Exception as e:
     print(e, file=sys.stderr)
