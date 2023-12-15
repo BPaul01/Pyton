@@ -1,5 +1,6 @@
 import sys
 import os
+import json
 
 try:
     if len(sys.argv) != 3:
@@ -36,6 +37,14 @@ try:
     # check if it is readable
     if not os.access(target_directory, os.R_OK):
         raise Exception("Error: Source file is not readable")
+
+    # read the source file
+    try:
+        s_file = open(source_file, mode="r")
+        print(f"Contents of the source file: {s_file.read()}")
+        s_file.close()
+    except Exception as e:
+        raise Exception("Error: Could not open te file")
 
 except Exception as e:
     print(e, file=sys.stderr)

@@ -1,0 +1,12 @@
+{
+  "File1": "content1",
+  "Dir1": {
+    "File2": "content2",
+    "File3": "content3",
+    "Dir2": {
+      "File4": "content4"
+    }
+  },
+  "Dir3": {},
+  "File5": "content5"
+}
