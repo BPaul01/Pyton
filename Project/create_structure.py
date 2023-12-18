@@ -68,8 +68,11 @@ def create_structure(source_file, target_directory):
                     try:
                         file = open(os.path.join(current_dir, file_name), mode="w")
 
-                        # write the content of the file
-                        file.write(value)
+                        # write the content of the file in chunks
+                        for i in range(0, len(value), 1024):
+                            chunk_to_write = value[i:i + 1024]
+                            file.write(chunk_to_write)
+
                         file.close()
                     except Exception as e:
                         raise Exception(f"Error: Could not create the file {file_name}")
