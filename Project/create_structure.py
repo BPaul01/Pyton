@@ -16,25 +16,18 @@ def reset_folder(folder):
 def create_structure(source_file, target_directory):
     not_the_first = False
     current_dir = target_directory
+    file_name = ""
 
     # read the source file and load its contents into a dictionary
     try:
         json_data = open(source_file, mode="rb")
 
-        print("Before")
-
         for prefix, event, value in ijson.parse(json_data):
-
-            print(f'Prefix: {prefix}, Event: {event}, Value: {value}')
-
             # handle directory creation
             if event == "start_map" and not_the_first:
                 # get the name of the directory
                 dirs = prefix.split(".")
                 dir_name = dirs[len(dirs) - 1]
-
-                print(dir_name)
-                print(os.listdir(current_dir))
 
                 # check if there are other folders with the same name
                 if dir_name in os.listdir(current_dir):
@@ -62,24 +55,24 @@ def create_structure(source_file, target_directory):
 
             #handle file creation
             if event == "string":
-                # # get the name of the file
-                # elements = prefix.split(".")
-                # file_name = elements[len(elements) - 1]
 
                 # check if there are other files with the same name
                 if file_name in os.listdir(current_dir):
                     # revert the target folder
                     reset_folder(target_directory)
 
-                    raise Exception("Error: Found two folders with the same name at the same level\n"
+                    raise Exception("Error: Found two files with the same name at the same level\n"
                                     "Target folder has been reseted")
                 else:
                     # create the file
-                    file = open(os.path.join(current_dir, file_name), mode="w")
+                    try:
+                        file = open(os.path.join(current_dir, file_name), mode="w")
 
-                    # write the content of the file
-                    file.write(value)
-                    file.close()
+                        # write the content of the file
+                        file.write(value)
+                        file.close()
+                    except Exception as e:
+                        raise Exception(f"Error: Could not create the file {file_name}")
 
             if event == "end_map":
                 # update the current directory
@@ -133,4 +126,4 @@ try:
 except Exception as e:
     print(e, file=sys.stderr)
 else:
-    print("All gut")
+    print("Operation completed successfully")
