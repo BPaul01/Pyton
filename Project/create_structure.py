@@ -117,7 +117,7 @@ def create_structure(source_file, target_directory, atomic_prompt):
                     # create the file
                     print(f"Creating the file {file_name}")
                     try:
-                        fd = open(os.path.join(current_dir, file_name), mode="w")
+                        fd = open(os.path.join(current_dir, file_name), mode="w", encoding="utf-8")
 
                         # write the content of the file in chunks
                         for i in range(0, len(value), 1024):
