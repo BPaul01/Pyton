@@ -7,16 +7,26 @@ import ijson
 def reset_folder(folder):
     try:
         for item in os.listdir(folder):
-            item_path = os.path.join(folder, item)
-            shutil.rmtree(item_path)
+            if os.path.isfile(os.path.join(folder, item)):
+                os.remove(os.path.join(folder, item))
+            else:
+                item_path = os.path.join(folder, item)
+                shutil.rmtree(item_path)
+
     except Exception as e:
-        print("Something has gone terribly wrong", file=sys.stderr)
+        if len(os.listdir(folder)) != 0:
+            print("Error: Could not revert the folder", file=e)
+        else:
+            print("Something has gone terribly wrong", file=sys.stderr)
         raise SystemExit
 
-def create_structure(source_file, target_directory):
+
+def create_structure(source_file, target_directory, atomic_prompt):
+    atomic = True
     not_the_first = False
     current_dir = target_directory
     file_name = ""
+    errors = ""
 
     # read the source file and load its contents into a dictionary
     try:
@@ -31,18 +41,45 @@ def create_structure(source_file, target_directory):
 
                 # check if there are other folders with the same name
                 if dir_name in os.listdir(current_dir):
-                    # revert the target folder
-                    reset_folder(target_directory)
+                    if not atomic_prompt:
+                        atomic_prompt = True
+                        response = input("Encountered errors while processing the operation.\n"
+                                         "WARNING! If you choose to continue it is possible that the structure "
+                                         "will not be the same as given in the .json file\n"
+                                         "WARNING! If you choose to continue the result may be unpredictable\n"
+                                         "Kill operation? Y/N\n")
+                        if response.lower() == "n":
+                            atomic = False
 
-                    raise Exception("Error: Found two folders with the same name at the same level\n"
-                                    "Target folder has been reseted")
+                    if atomic:
+                        # revert the target folder
+                        reset_folder(target_directory)
+                        raise Exception("Error: Found two folders with the same name at the same level\n"
+                                        "Target folder has been reseted")
+                    else:
+                        print("Error: Found two folders with the same name at the same level\n"
+                              "Target folder has been reseted")
                 else:
                     # create the folder
                     print(f"Creating the folder {dir_name}")
                     try:
                         os.mkdir(os.path.join(current_dir, dir_name))
                     except Exception as e:
-                        raise Exception("Error: Could not create the folder")
+                        if not atomic_prompt:
+                            atomic_prompt = True
+                            response = input("Encountered errors while processing the operation.\n"
+                                             "WARNING! If you choose to continue it is possible that the structure "
+                                             "will not be the same as given in the .json file\n"
+                                             "WARNING! If you choose to continue the result may be unpredictable\n"
+                                             "Kill operation? Y/N\n")
+                            if response.lower() == "n":
+                                atomic = False
+
+                        if atomic:
+                            reset_folder(target_directory)
+                            raise Exception(f"Error: Could not create the folder {dir_name}")
+                        else:
+                            print(f"Error: Could not create the folder {dir_name}")
 
                     # update the current directory
                     current_dir = os.path.join(current_dir, dir_name)
@@ -53,34 +90,62 @@ def create_structure(source_file, target_directory):
             if event == "map_key":
                 file_name = value
 
-            #handle file creation
+            # handle file creation
             if event == "string":
 
                 # check if there are other files with the same name
                 if file_name in os.listdir(current_dir):
-                    # revert the target folder
-                    reset_folder(target_directory)
+                    if not atomic_prompt:
+                        atomic_prompt = True
+                        response = input("Encountered errors while processing the operation.\n"
+                                         "WARNING! If you choose to continue it is possible that the structure "
+                                         "will not be the same as given in the .json file\n"
+                                         "WARNING! If you choose to continue the result may be unpredictable\n"
+                                         "Kill operation? Y/N\n")
+                        if response.lower() == "n":
+                            atomic = False
 
-                    raise Exception("Error: Found two files with the same name at the same level\n"
-                                    "Target folder has been reseted")
+                    if atomic:
+                        # revert the target folder
+                        reset_folder(target_directory)
+                        raise Exception("Error: Found two files with the same name at the same level\n"
+                                        "Target folder has been reseted")
+                    else:
+                        print("Error: Found two files with the same name at the same level\n"
+                              "Target folder has been reseted")
                 else:
                     # create the file
+                    print(f"Creating the file {file_name}")
                     try:
-                        file = open(os.path.join(current_dir, file_name), mode="w")
+                        fd = open(os.path.join(current_dir, file_name), mode="w")
 
                         # write the content of the file in chunks
                         for i in range(0, len(value), 1024):
                             chunk_to_write = value[i:i + 1024]
-                            file.write(chunk_to_write)
+                            fd.write(chunk_to_write)
 
-                        file.close()
+                        fd.close()
+
                     except Exception as e:
-                        raise Exception(f"Error: Could not create the file {file_name}")
+                        if not atomic_prompt:
+                            atomic_prompt = True
+                            response = input("Encountered errors while processing the operation.\n"
+                                             "WARNING! If you choose to continue it is possible that the structure "
+                                             "will not be the same as given in the .json file\n"
+                                             "WARNING! If you choose to continue the result may be unpredictable\n"
+                                             "Kill operation? Y/N\n")
+                            if response.lower() == "n":
+                                atomic = False
+
+                        if atomic:
+                            reset_folder(target_directory)
+                            raise Exception(f"Error: Could not create the file {file_name}")
+                        else:
+                            print(f"Error: Could not create the file {file_name}")
 
             if event == "end_map":
                 # update the current directory
                 current_dir = os.path.dirname(current_dir)
-
 
         json_data.close()
 
@@ -124,7 +189,7 @@ try:
     if not os.access(source_file, os.R_OK):
         raise Exception("Error: Source file is not readable")
 
-    create_structure(source_file, target_directory)
+    create_structure(source_file, target_directory, False)
 
 except Exception as e:
     print(e, file=sys.stderr)
